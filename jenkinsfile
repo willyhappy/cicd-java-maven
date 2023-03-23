@@ -1,4 +1,4 @@
-def tomcatServerUrl = "http://172.31.14.95"
+def tomcatServerUrl = "http://172.31.53.149"
 pipeline {
   agent {
     node {
@@ -11,7 +11,7 @@ pipeline {
     /* stage('Code checkout') {
       steps {
         //download code from github
-        git 'https://github.com/ajitinamdar-tech/jenkins-cicd-java-maven-demo.git'
+        git 'https://github.com/willyhappy/cicd-java-maven.git'
       }
     }*/
     stage('Build') {
