@@ -1,4 +1,4 @@
-def tomcatServerUrl = "http://172.31.53.149"
+def tomcatServerUrl = "http://172.31.53.149"  /* tomcat server’s private address*/
 pipeline {
   agent {
     node {
@@ -7,13 +7,19 @@ pipeline {
   }
 
   stages {
-    //Use this code for inline pipeline script option
-    /* stage('Code checkout') {
+    //Use this code for inline pipeline script option  
+    stage('Code checkout') {
       steps {
         //download code from github
-        git 'https://github.com/willyhappy/cicd-java-maven.git'
+        
+        //using credential
+        //checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins-user-github', url: 'https://github.com/willyhappy/cicd-java-maven.git']]])
+        
+        //not using credential
+        checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/willyhappy/cicd-java-maven.git']]])
+        sh "ls -lart ./*"
       }
-    }*/
+    }
     stage('Build') {
       steps {
         // Run the maven build
@@ -23,10 +29,10 @@ pipeline {
     stage('Deploy') {
       steps {
         //deploy war on tomcat server
-        deploy adapters: [tomcat9(url: "${tomcatServerUrl}",
-            credentialsId: 'tomcat-credential')],
+        deploy adapters: [tomcat9(url: "${tomcatServerUrl}",  /*using tomcat9*/
+            credentialsId: 'tomcat-credential')],                /*using credential that created last time*/
           war: 'target/*.war',
-          contextPath: 'cicd-java-maven-pipeline'
+          contextPath: 'cicd-java-maven-pipeline'             /*contexPath setup*/
 
       }
     }
