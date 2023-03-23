@@ -23,10 +23,10 @@ pipeline {
     stage('Deploy') {
       steps {
         //deploy war on tomcat server
-        deploy adapters: [tomcat8(url: "${tomcatServerUrl}",
-            credentialsId: 'tomcat-credentials')],
+        deploy adapters: [tomcat9(url: "${tomcatServerUrl}",
+            credentialsId: 'tomcat-credential')],
           war: 'target/*.war',
-          contextPath: 'pipeline-app'
+          contextPath: 'cicd-java-maven-pipeline'
 
       }
     }
